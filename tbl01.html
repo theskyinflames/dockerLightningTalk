@@ -1,0 +1,82 @@
+<html>
+<style>
+	.demo {
+		width:100%;
+		border:none;
+		padding:0px;
+	}
+	.demo th {
+		border:none;
+		padding:0px;
+		background:#F0F0F0;
+	}
+	.demo td {
+		border:solid;
+		text-align:left;
+		padding:0px;
+	}
+  pre {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+}
+</style>
+<body>
+<table class="demo">
+	<thead>
+	<tr>
+		<th>Dockerfile</th>
+		<th>Image layers (817 Mb)</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>
+      <pre>
+FROM golang:1.14.2-buster
+WORKDIR /root/
+COPY . .
+RUN go build -o hello
+EXPOSE 8080
+CMD [ "./hello" ]
+      </pre>
+    </td>
+    <td>
+      <pre style="font-size: 12px;">
+/d/lt/docker/src$ docker history hello
+IMAGE               CREATED             CREATED BY                                      SIZE  
+1209db342fda        3 minutes ago       /bin/sh -c #(nop)  CMD ["./hello"]              0B                  
+884e628a18d2        3 minutes ago       /bin/sh -c #(nop)  EXPOSE 8080                  0B                  
+052928721827        3 minutes ago       /bin/sh -c go build -o hello                    7.5MB               
+5be8a6338531        3 minutes ago       /bin/sh -c #(nop) COPY dir:db96fc68ae8efca1d…   401B                
+61394b84b928        3 minutes ago       /bin/sh -c #(nop) WORKDIR /root/                0B                  
+2421885b04da        2 weeks ago         /bin/sh -c #(nop) WORKDIR /go                   0B                  
+&ltmissing&gt            2 weeks ago         /bin/sh -c mkdir -p "$GOPATH/src" "$GOPATH/b…   0B                  
+&ltmissing&gt            2 weeks ago         /bin/sh -c #(nop)  ENV PATH=/go/bin:/usr/loc…   0B                  
+&ltmissing&gt            2 weeks ago         /bin/sh -c #(nop)  ENV GOPATH=/go               0B                  
+&ltmissing&gt            2 weeks ago         /bin/sh -c set -eux;   dpkgArch="$(dpkg --pr…   334MB               
+&ltmissing&gt            2 weeks ago         /bin/sh -c #(nop)  ENV GOLANG_VERSION=1.14.2    0B                  
+&ltmissing&gt            2 weeks ago         /bin/sh -c apt-get update && apt-get install…   182MB               
+&ltmissing&gt            2 weeks ago         /bin/sh -c apt-get update && apt-get install…   146MB               
+&ltmissing&gt            2 weeks ago         /bin/sh -c set -ex;  if ! command -v gpg > /…   17.5MB              
+&ltmissing&gt            2 weeks ago         /bin/sh -c apt-get update && apt-get install…   16.5MB              
+&ltmissing&gt            2 weeks ago         /bin/sh -c #(nop)  CMD ["bash"]                 0B                  
+&ltmissing&gt            2 weeks ago         /bin/sh -c #(nop) ADD file:f086177965196842a…   114MB   
+      </pre>
+    </td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,1 @@
+scratch article: https://rollout.io/blog/building-minimal-docker-containers-for-go-applications/

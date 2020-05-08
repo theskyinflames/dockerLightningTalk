@@ -1,0 +1,49 @@
+# Building light docker images
+16 May 2020
+Tags: docker, docker-images
+
+Jaume Arús
+IT team at Paack
+jaume.arus@paack.co
+
+## Overview on Docker & containerization of services
+* Containerization before Docker
+  1. Linux LXC
+  2. Freesbd Jails
+* Docker -> Cloud containerization / devops technology
+  1. Speeding up scaling in production
+  2. Isolate application from context
+* Containerization spec: [Open Containers Initiative](https://www.opencontainers.org)
+  1. CI Image spe
+  2. CI Runtime spe
+
+## Doker containerization
+### Dockerfile
+1. [Reference](https://docs.docker.com/engine/reference/builder)
+### Docker image
+1. Docker image layers
+2. File sytem 
+Currently overlay2 for Docker version > 18.06, and auFS older versions
+3. Docker runtime
+
+## Some alternatives to Docker
+* [Apache Mesos](http://mesos.apache.org/documentation/latest/mesos-containerizer)
+* [OpenVZ](https://openvz.org)
+* [containerd](https://containerd.io/)
+
+As you can see, neither the containerzation concept is a new concept, nor Docker is the only solution for dockerization.
+ 
+## Taking advantage of dockerization
+As developers, how can we take advantage of dockerizing our services.
+
+* What is docker useful for?
+* How developers can take advantge of Docker ?
+* How do we define a docker image ? Dockerfile
+  1. What is a base image ?
+* Building light docker images:
+  1. Building Docker images best practices
+    1. Using light base images (Alpine linux, CoreOS, Rancher)
+    2. Minimize the number of layers
+    3. Add a [.dockerignore](https://docs.docker.com/engine/reference/builder/#dockerignore-file) file
+	  2. Using [multistage builds](https://docs.docker.com/develop/develop-images/multistage-build) to achieve lighter docker images
+

@@ -1,0 +1,80 @@
+<html>
+<style>
+	.demo {
+		width:100%;
+		border:none;
+		padding:0px;
+	}
+	.demo th {
+		border:none;
+		padding:0px;
+		background:#F0F0F0;
+	}
+	.demo td {
+		border:solid;
+		text-align:left;
+		padding:0px;
+	}
+  pre {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+}
+</style>
+<body>
+<table class="demo">
+	<thead>
+	<tr>
+		<th>Dockerfile</th>
+		<th>Image layers (385 Mb)</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>
+      <pre>
+FROM golang:1.14.2-alpine3.11
+WORKDIR /root/
+COPY . .
+RUN go build -o mysrv
+EXPOSE 8080
+CMD [ "./mysrv" ]
+      </pre>
+    </td>
+    <td>
+      <pre style="font-size: 12px;">
+src git:(master) ✗ docker history hello-alpine
+IMAGE               CREATED             CREATED BY                                      SIZE 
+2ceb97728b88        15 minutes ago      /bin/sh -c #(nop)  CMD ["./mysrv"]              0B                  
+0a6bc65a7535        15 minutes ago      /bin/sh -c #(nop)  EXPOSE 8080                  0B                  
+3f303ab37439        15 minutes ago      /bin/sh -c go build -o mysrv                    7.5MB               
+c66c29d305d2        15 minutes ago      /bin/sh -c #(nop) COPY dir:208200f007e397b71…   403B                
+40b335a57af0        36 minutes ago      /bin/sh -c #(nop) WORKDIR /root/                0B                  
+dda4232b2bd5        3 weeks ago         /bin/sh -c #(nop) WORKDIR /go                   0B                  
+&ltmissing&gt           3 weeks ago         /bin/sh -c mkdir -p "$GOPATH/src" "$GOPATH/b…   0B                  
+&ltmissing&gt           3 weeks ago         /bin/sh -c #(nop)  ENV PATH=/go/bin:/usr/loc…   0B                  
+&ltmissing&gt           3 weeks ago         /bin/sh -c #(nop)  ENV GOPATH=/go               0B                  
+&ltmissing&gt           3 weeks ago         /bin/sh -c set -eux;  apk add --no-cache --v…   363MB               
+&ltmissing&gt           3 weeks ago         /bin/sh -c #(nop)  ENV GOLANG_VERSION=1.14.2    0B                  
+&ltmissing&gt           3 weeks ago         /bin/sh -c [ ! -e /etc/nsswitch.conf ] && ec…   17B                 
+&ltmissing&gt           3 weeks ago         /bin/sh -c apk add --no-cache   ca-certifica…   553kB               
+&ltmissing&gt           3 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+&ltmissing&gt           3 weeks ago         /bin/sh -c #(nop) ADD file:b91adb67b670d3a6f…   5.61MB       
+	</pre>
+    </td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

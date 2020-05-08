@@ -1,0 +1,118 @@
+# Building light docker images
+16 May 2020
+Tags: docker, docker-images
+
+Jaume Arús
+IT team at Paack
+jaume.arus@paack.co
+
+
+## Overview on containerization
+
+* Basically, containerization consist of isolate an application from the context where it runs
+* This allows us "build one time" and run anywhere"
+* You can think about a container like a black box, where you put your application
+  and all of its dependencies it needs to run
+* The containerization runtime takes the container and runs it, acting as interface 
+  between the application running inside the container and the host OS where it runs
+* Unlike the container, the containerization runtime depends on the OS it runs on
+
+.image img-present.jpeg 220 _
+
+## A bit of history
+
+* Containerization before Docker - low level OS tools
+  1. [Freesbd Jails](https://en.wikipedia.org/wiki/FreeBSD_jail) (March 2000)
+  2. [Linux LXC](https://linuxcontainers.org/lxc/introduction/) (January 2008)
+* Docker (October 2014) - declarative containerization
+  1. Cloud containerization oriented.
+  2. Focused on scaling up faster.
+  3. Easy creation, usage, and administration.
+* Containerization spec: [Open Containers Initiative- OCI](https://www.opencontainers.org) (June 2015)
+  1. CI Image spec.
+  2. CI Runtime spec.
+
+## Docker (OCI compatible containerization solution)
+
+It's based, on three components:
+1. Dockerfile ([reference](https://docs.docker.com/engine/reference/builder)): Describes Docker image content.
+2. Docker image: OCI compatible images built from a given Dockerfile.
+3. [Docker engine](https://www.docker.com/products/container-runtime): Basically, provides a runtime for running and managing containers in a isolated context.
+
+.image img08.png 300 _
+
+## Dockerfile
+
+  * A *Dockerfile* describes the content of the Docker image we want to create. 
+  * It's the sequence of commands that builds the resulting Docker image (FROM, ENV, RUN, COPY, WOKRDIR, CMD, etc...)
+  * Each command in the Dockerfile is a *layer* in the created image
+  * Minimizing the number of layers reduces the final size of the image
+  * Layers can be shared between images
+  * Some layers are built at Dockerfile building time, and others are download from the Cloud
+  * Dockerfile example:
+      ```
+        FROM golang:1.14.2-buster
+        WORKDIR /root/
+        COPY . .
+        RUN go build -o mysrv
+        EXPOSE 8080
+        CMD [ "./mysrv" ]
+      ```
+
+## Docker image
+
+  * Is the result of Dockerfile compilation
+  * Docker images are read only templates from which containers are launched from.
+  * Each image consists of a series of layers using the *overlay2* file system.
+  * When a change is done on a image, a new layer is added
+
+.image img06.png 360 _
+
+## Why is important reduce the size of the Docker images?
+
+* Reduce infrastructure costs.
+* Reduce timings for CI/CD pipelines.
+* Minimize the [attack surface](https://en.wikipedia.org/wiki/Attack_surface) by reducing the content of the Docker image. 
+
+.image img09.png 360 _
+
+## How to reduce the Docker image size?
+
+There are several things we can do in order to reduce the Docker image we get when compiling the Dockerfile:
+* Minimize the amount of files/resources you add to the Dockerfile.
+* Each command en the Dockerfile creates a layer in the Docker image, and each layer adds an extra space **(1)**, minimize it.
+* The base image adds all of its layers to the new Docker image. Choose lighter one.
+* In the cases of compiled languages, you only need the binary and its dependencies to run the service. Discard the rest using multi stage Dockerfile compilation **(2)**.
+
+**(1)** [More about docker image sizes](https://developers.redhat.com/blog/2016/03/09/more-about-docker-images-size)
+
+**(2)** [Use multi stage builds](https://docs.docker.com/develop/develop-images/multistage-build)
+\/\/ [Advanced multi stage patterns - BuildKit](https://medium.com/@tonistiigi/advanced-multi-stage-build-patterns-6f741b852fae)
+
+## Building Debian OS based image
+
+.html tbl01.html
+
+
+## Building Alpine Linux based image
+
+.html tbl02.html
+
+## Building multi stage image
+
+.html tbl03.html
+
+## Building multi stage image from scratch
+
+.html tbl04.html
+
+## All images by size
+
+This is the list of all docker images we're compiled:
+```bash
+➜  src git:(master) ✗ docker images|grep hello-|sort -k7nr    
+hello-debian         latest              2b381cf8f418        40 minutes ago      817MB
+hello-alpine         latest              2ceb97728b88        41 minutes ago      377MB
+hello-multi-stage    latest              40191c5907c8        38 minutes ago      13.1MB
+hello-ms-scratch     latest              640e9c4efbe1        38 minutes ago      7.41MB
+```

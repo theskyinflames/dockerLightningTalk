@@ -1,0 +1,73 @@
+<html>
+<style>
+	.demo {
+		width:100%;
+		border:none;
+		padding:0px;
+	}
+	.demo th {
+		border:none;
+		padding:0px;
+		background:#F0F0F0;
+	}
+	.demo td {
+		border:solid;
+		text-align:left;
+		padding:0px;
+	}
+  pre {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+}
+</style>
+<body>
+<table class="demo">
+	<thead>
+	<tr>
+		<th>Dockerfile</th>
+		<th>Image layers (7.4 Mb)</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>
+      <pre style="font-size: 12px;">
+FROM golang:1.14.2-alpine AS builder
+WORKDIR /root/
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o mysrv
+
+FROM scratch 
+WORKDIR /root/
+COPY --from=builder /root/mysrv .
+EXPOSE 8080
+CMD ["./mysrv"]  
+      </pre>
+    </td>
+    <td>
+	  <pre style="font-size: 12px;">
+src git:(master) ✗ docker history hello-ms-scratch  		
+IMAGE               CREATED             CREATED BY                                      SIZE
+640e9c4efbe1        50 minutes ago      /bin/sh -c #(nop)  CMD ["./mysrv"]              0B                  
+43bb3f374304        50 minutes ago      /bin/sh -c #(nop)  EXPOSE 8080                  0B                  
+128bacc3aa4c        53 minutes ago      /bin/sh -c #(nop) COPY file:81ea123caf46dea3…   7.41MB              
+dcf59ebf7d2c        About an hour ago   /bin/sh -c #(nop) WORKDIR /root/                0B   
+	</pre>
+    </td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>
