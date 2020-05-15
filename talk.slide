@@ -9,15 +9,15 @@ jaume.arus@paack.co
 
 ## Overview on containerization
 
-* Basically, containerization consist of isolate an application from the context where it runs
-* This allows us "build one time" and run anywhere"
-* You can think about a container like a black box, where you put your application
-  and all of its dependencies it needs to run
-* The containerization runtime takes the container and runs it, acting as interface 
-  between the application running inside the container and the host OS where it runs
-* Unlike the container, the containerization runtime depends on the OS it runs on
+* Basically, containerization consist of isolate an application from the context where it runs.
+* This allows us **"build one time and run anywhere"** paradigm (really, not like java).
+* You can think about a **container** like a black box, where you put your application
+  and all of its dependencies it needs to run. It doesn't depends on a specific OS.
+* The **containerization runtime** takes the container and runs it, acting as interface 
+  between the application running inside the container and the host OS where it runs on. It provides the conteiner with resources from the host, like **network**, **storage**, **memory** and **cpu**.
+* Unlike the container, the containerization runtime depends on the OS it runs on.
 
-.image img-present.jpeg 220 _
+.image img-present.jpeg 160 _
 
 ## A bit of history
 
@@ -62,11 +62,11 @@ It's based, on three components:
 ## Docker image
 
   * Is the result of Dockerfile compilation
-  * Docker images are read only templates from which containers are launched from.
-  * Each image consists of a series of layers using the *overlay2* file system.
-  * When a change is done on a image, a new layer is added
+  * Docker images are read only templates from which containers are started from.
+  * Each image consists of a series of layers using the [overlayFS](https://docs.docker.com/storage/storagedriver/overlayfs-driver/) file system.
+  * When a change is done on an image, a new layer is added
 
-.image img06.png 360 _
+.image img02.jpg 360 _
 
 ## Why is important reduce the size of the Docker images?
 
@@ -79,10 +79,10 @@ It's based, on three components:
 ## How to reduce the Docker image size?
 
 There are several things we can do in order to reduce the Docker image we get when compiling the Dockerfile:
-* Minimize the amount of files/resources you add to the Dockerfile.
-* Each command en the Dockerfile creates a layer in the Docker image, and each layer adds an extra space **(1)**, minimize it.
+* Minimize the amount of files/resources you add to Dockerfile.
+* Each command en the Dockerfile creates a layer in the Docker image, and each layer adds an extra space **(1)**, minimize them.
 * The base image adds all of its layers to the new Docker image. Choose lighter one.
-* In the cases of compiled languages, you only need the binary and its dependencies to run the service. Discard the rest using multi stage Dockerfile compilation **(2)**.
+* In the cases of compiled languages, you only need the binary and its dependencies to run the service. Nothing else. Discard the rest using **multi stage** Dockerfile compilation **(2)**.
 
 **(1)** [More about docker image sizes](https://developers.redhat.com/blog/2016/03/09/more-about-docker-images-size)
 
