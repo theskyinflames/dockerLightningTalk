@@ -3,13 +3,16 @@ A brew lightning talk about how to reduce Docker images.
 The goal is to explain how can we decrease the size of our Docker images and why it's important.
 
 ## Start the presentation:
+
 This presentation uses the [present tool](https://godoc.org/golang.org/x/tools/present) from Go. You to install it and do:
+
 ```sh
   dockerLightningTalk git:(master) ✗ present
   2020/05/17 21:43:07 Open your web browser and visit http://127.0.0.1:3999
 ```
 
-## Approach 
+## Approach
+
 I've take a minimal service in golang and put it in a docker image: 
 ```go
 import (
@@ -28,9 +31,8 @@ func HelloServer(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-From here, I build four docker images based on its own docker files. All images does the same, dockerizing the above service. 
-But all Dockerfiles are different:
-* First Dockerfile uses a Debian Linux with Golang as base image.
+From here, I build four docker images using its own docker files. All images does the same, dockerizing the above service. But all Dockerfiles are different:
+* First Dockerfile uses a Debian Linux as base image.
 * Second Dockerfile uses an Alpine Linux as base image.
 * Third Dockerfile uses multi stage building. This dereases dramatically the size of the docker image-
 * Fourth Dockerfile combines multi stage building and *scratch* image usage.
