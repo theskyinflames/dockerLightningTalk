@@ -11,7 +11,6 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-// HelloServer is a fake server
 func HelloServer(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Hello world!\n"))
 }
