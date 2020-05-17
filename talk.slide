@@ -41,6 +41,10 @@ It's based, on three components:
 
 .image img08.png 300 _
 
+## Docker container building flux
+
+.image img02.jpg 360 _
+
 ## Dockerfile
 
   * A *Dockerfile* describes the content of the Docker image we want to create. 
@@ -66,7 +70,7 @@ It's based, on three components:
   * Each image consists of a series of layers using the [overlayFS](https://docs.docker.com/storage/storagedriver/overlayfs-driver/) file system.
   * When a change is done on an image, a new layer is added
 
-.image img02.jpg 360 _
+.html tbl05.html
 
 ## Why is important reduce the size of the Docker images?
 
