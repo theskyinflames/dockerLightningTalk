@@ -31,7 +31,7 @@ func HelloServer(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-From here, I build four docker images using its own docker files. All images does the same, dockerizing the above service. But all Dockerfiles are different:
+From here, I dockerlize the above serivice in a four different ways. With each iteration, I get an smaller Docker image. All images does the same, dockerizing the above service. But all Dockerfiles are different:
 * First Dockerfile uses a Debian Linux as base image.
 * Second Dockerfile uses an Alpine Linux as base image.
 * Third Dockerfile uses multi stage building. This dereases dramatically the size of the docker image-
@@ -45,6 +45,8 @@ This is the result:
   hello-3-multi-stage   latest              151363ae52cd        27 minutes ago      13.1MB
   hello-4-ms-scratch    latest              d1ea8ed7079f        26 minutes ago      7.41MB
 ```
+As you can see, we pass from a **818 Mb** docker image to a **7.41 Mb** one. The two images are equivalent and does the same, dockerizing the service.
+
 ## Check it out for yourself
 1. Compile the Dockerfiles
 ```sh
