@@ -4,7 +4,7 @@ The goal is to explain how can we decrease the size of our Docker images and why
 
 ## Start the presentation:
 
-This presentation uses the [present tool](https://godoc.org/golang.org/x/tools/present) from Go. You to install it and do:
+This presentation uses the [present tool](https://godoc.org/golang.org/x/tools/present) from Go. You must install it and do:
 
 ```sh
   dockerLightningTalk git:(master) ✗ present
