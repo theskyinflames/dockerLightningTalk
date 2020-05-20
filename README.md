@@ -13,7 +13,7 @@ This presentation uses the [present tool](https://godoc.org/golang.org/x/tools/p
 
 ## Approach
 
-I've taken a minimal service in golang and put it in a docker image: 
+I've taken a minimal service in golang as a example to be dockerized: 
 ```go
 import (
 	"fmt"
