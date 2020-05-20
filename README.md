@@ -1,5 +1,5 @@
 # Minimizing Docker images lightning talk
-A brew lightning talk about how to reduce Docker images. 
+A lightning talk about how to reduce Docker images. 
 The goal is to explain how can we decrease the size of our Docker images and why it's important.
 
 ## Start the presentation:
